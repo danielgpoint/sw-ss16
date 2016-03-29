@@ -1,11 +1,11 @@
-package de.andreasschrade.androidtemplate.dummy;
+package com.sw_ss16.studyroompopulationpredicter.dummy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.andreasschrade.androidtemplate.R;
+import com.sw_ss16.studyroompopulationpredicter.R;
 
 /**
  * Just dummy content. Nothing special.

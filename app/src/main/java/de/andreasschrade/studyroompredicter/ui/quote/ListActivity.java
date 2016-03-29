@@ -1,4 +1,4 @@
-package de.andreasschrade.androidtemplate.ui.quote;
+package com.sw_ss16.studyroompopulationpredicter.ui.quote;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,10 +7,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-import de.andreasschrade.androidtemplate.R;
-import de.andreasschrade.androidtemplate.dummy.DummyContent;
-import de.andreasschrade.androidtemplate.ui.base.BaseActivity;
-import de.andreasschrade.androidtemplate.util.LogUtil;
+import com.sw_ss16.studyroompopulationpredicter.R;
+import com.sw_ss16.studyroompopulationpredicter.dummy.DummyContent;
+import com.sw_ss16.studyroompopulationpredicter.ui.base.BaseActivity;
+import com.sw_ss16.studyroompopulationpredicter.util.LogUtil;
 
 /**
  * Lists all available quotes. This Activity supports a single pane (= smartphones) and a two pane mode (= large screens with >= 600dp width).

@@ -1,4 +1,4 @@
-package de.andreasschrade.androidtemplate.ui.base;
+package com.sw_ss16.studyroompopulationpredicter.ui.base;
 
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
-import de.andreasschrade.androidtemplate.util.LogUtil;
+import com.sw_ss16.studyroompopulationpredicter.util.LogUtil;
 
-import static de.andreasschrade.androidtemplate.util.LogUtil.makeLogTag;
+import static com.sw_ss16.studyroompopulationpredicter.util.LogUtil.makeLogTag;
 
 /**
  * The base class for all fragment classes.

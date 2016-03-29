@@ -1,4 +1,4 @@
-package de.andreasschrade.androidtemplate.ui.base;
+package com.sw_ss16.studyroompopulationpredicter.ui.base;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,13 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import de.andreasschrade.androidtemplate.R;
-import de.andreasschrade.androidtemplate.ui.SettingsActivity;
-import de.andreasschrade.androidtemplate.ui.ViewSamplesActivity;
-import de.andreasschrade.androidtemplate.ui.quote.ListActivity;
+import com.sw_ss16.studyroompopulationpredicter.R;
+import com.sw_ss16.studyroompopulationpredicter.ui.SettingsActivity;
+import com.sw_ss16.studyroompopulationpredicter.ui.ViewSamplesActivity;
+import com.sw_ss16.studyroompopulationpredicter.ui.quote.ListActivity;
 
-import static de.andreasschrade.androidtemplate.util.LogUtil.logD;
-import static de.andreasschrade.androidtemplate.util.LogUtil.makeLogTag;
+import static com.sw_ss16.studyroompopulationpredicter.util.LogUtil.logD;
+import static com.sw_ss16.studyroompopulationpredicter.util.LogUtil.makeLogTag;
 
 /**
  * The base class for all Activity classes.

@@ -1,4 +1,4 @@
-package de.andreasschrade.androidtemplate.util;
+package com.sw_ss16.studyroompopulationpredicter.util;
 
 import android.util.Log;
 

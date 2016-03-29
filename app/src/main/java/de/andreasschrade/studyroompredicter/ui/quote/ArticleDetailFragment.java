@@ -1,4 +1,4 @@
-package de.andreasschrade.androidtemplate.ui.quote;
+package com.sw_ss16.studyroompopulationpredicter.ui.quote;
 
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -15,10 +15,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import butterknife.Bind;
-import de.andreasschrade.androidtemplate.R;
-import de.andreasschrade.androidtemplate.dummy.DummyContent;
-import de.andreasschrade.androidtemplate.ui.base.BaseActivity;
-import de.andreasschrade.androidtemplate.ui.base.BaseFragment;
+import com.sw_ss16.studyroompopulationpredicter.R;
+import com.sw_ss16.studyroompopulationpredicter.dummy.DummyContent;
+import com.sw_ss16.studyroompopulationpredicter.ui.base.BaseActivity;
+import com.sw_ss16.studyroompopulationpredicter.ui.base.BaseFragment;
 
 /**
  * Shows the quote detail page.

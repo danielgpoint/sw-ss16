@@ -1,9 +1,9 @@
-package de.andreasschrade.androidtemplate.ui.quote;
+package com.sw_ss16.studyroompopulationpredicter.ui.quote;
 
 import android.os.Bundle;
 
-import de.andreasschrade.androidtemplate.R;
-import de.andreasschrade.androidtemplate.ui.base.BaseActivity;
+import com.sw_ss16.studyroompopulationpredicter.R;
+import com.sw_ss16.studyroompopulationpredicter.ui.base.BaseActivity;
 
 /**
  * Simple wrapper for {@link ArticleDetailFragment}
