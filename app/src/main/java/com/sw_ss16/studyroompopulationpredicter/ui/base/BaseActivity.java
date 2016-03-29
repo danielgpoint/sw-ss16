@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import com.sw_ss16.studyroompopulationpredicter.R;
 import com.sw_ss16.studyroompopulationpredicter.ui.SettingsActivity;
 import com.sw_ss16.studyroompopulationpredicter.ui.ViewSamplesActivity;
-import com.sw_ss16.studyroompopulationpredicter.ui.quote.ListActivity;
+import com.sw_ss16.studyroompopulationpredicter.ui.studyroom.ListActivity;
 
 import static com.sw_ss16.studyroompopulationpredicter.util.LogUtil.logD;
 import static com.sw_ss16.studyroompopulationpredicter.util.LogUtil.makeLogTag;
@@ -108,9 +108,9 @@ public abstract class BaseActivity extends AppCompatActivity {
                 startActivity(new Intent(this, ListActivity.class));
                 finish();
                 break;
-            case R.id.nav_samples:
+            /* case R.id.nav_samples:
                 startActivity(new Intent(this, ViewSamplesActivity.class));
-                break;
+                break;*/
             case R.id.nav_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 break;
