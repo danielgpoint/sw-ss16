@@ -37,14 +37,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         setupNavDrawer();
-        // Test database insertion
-<<<<<<< HEAD
-        Database db = new Database(getApplicationContext());
-        db.insertInDatabase("INSERT INTO studyrooms VALUES (" +
-            "1, 'i7', 'test', 'inffeld 25d', 'asdf', 50 );");
-
-=======
->>>>>>> b5a545265666f5caf9214f6ad8873061baabe736
     }
 
     /**
