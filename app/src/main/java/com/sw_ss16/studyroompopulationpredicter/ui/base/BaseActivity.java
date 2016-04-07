@@ -1,8 +1,6 @@
 package com.sw_ss16.studyroompopulationpredicter.ui.base;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,16 +17,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.sw_ss16.studyroompopulationpredicter.R;
-import com.sw_ss16.studyroompopulationpredicter.content.FavoriteStudyRoomsContent;
+import com.sw_ss16.studyroompopulationpredicter.backend.Database;
 import com.sw_ss16.studyroompopulationpredicter.ui.SettingsActivity;
 import com.sw_ss16.studyroompopulationpredicter.ui.studyroom.ListActivity;
-import com.sw_ss16.studyroompopulationpredicter.backend.Database;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.sql.Array;
 
 import static com.sw_ss16.studyroompopulationpredicter.util.LogUtil.logD;
 import static com.sw_ss16.studyroompopulationpredicter.util.LogUtil.makeLogTag;
@@ -62,16 +57,23 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        // TODO: Use http://danielgpoint.at/predict.php?what=all
+        // Pull updated data from the remote database, put into the local database
+        // TODO: Do this not on every BaseActivity onCreate(), but like every two hours,
+        // update current data more often than StudyRooms data
+        insertStudyRoomsIntoSQLiteDB(queue, db);
+        insertStatisticsIntoSQLiteDB(queue, db);
+        insertCurrentDataIntoSQLiteDB(queue, db);
+        // Favorite Study Rooms can be stored in the local database only
+        insertFavoriteStudyRoomsIntoSQLiteDB(db);
+    }
+
+    private void insertStudyRoomsIntoSQLiteDB(RequestQueue queue, final Database db) {
         String url = "http://danielgpoint.at/predict.php?what=lc&how_much=all";
 
-        // Request a string response from the provided URL.
         final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url , null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        // Display the first 500 characters of the response string.
-                        // mTextView.setText();
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject jsonObject = response.getJSONObject(i);
@@ -85,15 +87,14 @@ public abstract class BaseActivity extends AppCompatActivity {
                                 System.out.println(id + " " + name + " " + address);
                                 db.insertInDatabase("INSERT INTO studyrooms (ID, NAME, DESCRIPTION, ADDRESS, IMAGE_IN, IMAGE_OUT, CAPACITY) " +
                                         "SELECT " +
-                                                id + "," +
-                                                "'" + name + "'," +
-                                                "'" + description + "'," +
-                                                "'" + address + "'," +
-                                                "null," + // TODO: image
-                                                "null," + // TODO: image
-                                                capacity + " " +
+                                        id + "," +
+                                        "'" + name + "'," +
+                                        "'" + description + "'," +
+                                        "'" + address + "'," +
+                                        "null," + // TODO: image
+                                        "null," + // TODO: image
+                                        capacity + " " +
                                         "WHERE NOT EXISTS (SELECT 1 FROM studyrooms WHERE ID = " + id +");");
-
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -103,12 +104,97 @@ public abstract class BaseActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // mTextView.setText("That didn't work!");
                 System.out.println("That didn't work!");
             }
         });
         // Add the request to the RequestQueue.
         queue.add(jsonArrayRequest);
+    }
+
+    private void insertStatisticsIntoSQLiteDB(RequestQueue queue, final Database db) {
+        String url = "http://danielgpoint.at/predict.php?what=stat&how_much=all";
+
+        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url , null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject jsonObject = response.getJSONObject(i);
+                                String id = jsonObject.getString("id");
+                                String lc_id = jsonObject.getString("lc_id");
+                                String weekday = jsonObject.getString("weekday");
+                                String hour = jsonObject.getString("hour");
+                                String fullness = jsonObject.getString("fullness");
+                                System.out.println(id + " " + lc_id + " " + weekday);
+                                db.insertInDatabase("INSERT INTO statistics (ID, LC_ID, WEEKDAY, HOUR, FULLNESS ) " +
+                                        "SELECT " +
+                                        id + "," +
+                                        "" + lc_id + ", " +
+                                        "" + weekday + ", " +
+                                        "" + hour + ", " +
+                                        "" + fullness + " " +
+                                        "WHERE NOT EXISTS (SELECT 1 FROM statistics WHERE ID = " + id +");");
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("That didn't work!");
+            }
+        });
+        // Add the request to the RequestQueue.
+        queue.add(jsonArrayRequest);
+
+    }
+
+    private void insertCurrentDataIntoSQLiteDB(RequestQueue queue, final Database db) {
+        String url = "http://danielgpoint.at/predict.php?what=curr&how_much=all";
+
+        final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url , null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject jsonObject = response.getJSONObject(i);
+                                String id = jsonObject.getString("id");
+                                String lc_id = jsonObject.getString("lc_id");
+                                String date = jsonObject.getString("date");
+                                String hour = jsonObject.getString("hour");
+                                String fullness = jsonObject.getString("fullness");
+                                System.out.println(id + " " + lc_id + " " + date);
+                                db.insertInDatabase("INSERT INTO current_data (ID, LC_ID, HOUR, FULLNESS, DATE) " +
+                                        "SELECT " +
+                                        id + "," +
+                                        "" + lc_id + ", " +
+                                        "" + hour + ", " +
+                                        "" + fullness + ", " +
+                                        "'" + date + "' " +
+                                        "WHERE NOT EXISTS (SELECT 1 FROM current_data WHERE ID = " + id +");");
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("That didn't work!");
+            }
+        });
+        // Add the request to the RequestQueue.
+        queue.add(jsonArrayRequest);
+
+    }
+
+    private void insertFavoriteStudyRoomsIntoSQLiteDB(Database db) {
+
     }
 
     /**

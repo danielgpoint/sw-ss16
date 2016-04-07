@@ -29,7 +29,6 @@ public class Database extends SQLiteOpenHelper {
                     "WEEKDAY" + " INT, " +
                     "HOUR" + " INT, " +
                     "FULLNESS" + " INT " +
-                    "DATE" + " DATE" +
                     ");";
 
     private static final String CURRENTDATA_TABLE_NAME = "current_data";
@@ -38,7 +37,8 @@ public class Database extends SQLiteOpenHelper {
                     "ID" + " INT, " +
                     "LC_ID" + " INT, " +
                     "HOUR" + " INT, " +
-                    "FULLNESS" + " INT " +
+                    "FULLNESS" + " INT, " +
+                    "DATE" + " DATE " +
                     ");";
 
     public Database(Context context) {
