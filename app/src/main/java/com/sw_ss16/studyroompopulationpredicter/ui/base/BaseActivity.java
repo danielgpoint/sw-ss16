@@ -22,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 import com.sw_ss16.studyroompopulationpredicter.R;
 import com.sw_ss16.studyroompopulationpredicter.backend.Database;
 import com.sw_ss16.studyroompopulationpredicter.content.FavoriteStudyRoomsContent;
+import com.sw_ss16.studyroompopulationpredicter.content.StudyRoomsContent;
 import com.sw_ss16.studyroompopulationpredicter.ui.SettingsActivity;
 import com.sw_ss16.studyroompopulationpredicter.ui.studyroom.ListActivity;
 
@@ -105,7 +106,13 @@ public abstract class BaseActivity extends AppCompatActivity {
                                         "'" + image_in + "', " +
                                         "'" + image_out + "', " +
                                         capacity + " " +
-                                        "WHERE NOT EXISTS (SELECT 1 FROM studyrooms WHERE ID = " + id +");");
+                                        "WHERE NOT EXISTS (SELECT 1 FROM studyrooms WHERE ID = " + id + ");");
+
+                                db.insertInDatabase("INSERT INTO favstudyrooms (ID, IS_FAV) " +
+                                        "SELECT " +
+                                        id + "," +
+                                        "0 " +
+                                        "WHERE NOT EXISTS (SELECT 1 FROM favstudyrooms WHERE ID = " + id +");");
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -257,9 +264,9 @@ public abstract class BaseActivity extends AppCompatActivity {
             // Add all study rooms to navdrawer
             Menu m = navigationView.getMenu();
             SubMenu all_study_rooms = m.getItem(2).getSubMenu();
-            for (int i = 0; i < FavoriteStudyRoomsContent.ITEMS.size(); i++)
+            for (int i = 0; i < StudyRoomsContent.ITEMS.size(); i++)
             {
-                all_study_rooms.add(FavoriteStudyRoomsContent.ITEMS.get(i).title);
+                all_study_rooms.add(StudyRoomsContent.ITEMS.get(i).title);
                 all_study_rooms.getItem(i).setIcon(R.drawable.ic_school_white_24dp);
             }
         }

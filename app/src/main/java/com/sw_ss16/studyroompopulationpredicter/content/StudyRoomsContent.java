@@ -10,7 +10,7 @@ import java.util.Map;
  *
  * Created by Andreas Schrade on 14.12.2015.
  */
-public class FavoriteStudyRoomsContent {
+public class StudyRoomsContent {
 
     /**
      * An array of sample items.
