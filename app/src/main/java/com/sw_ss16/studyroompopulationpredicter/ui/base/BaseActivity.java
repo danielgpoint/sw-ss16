@@ -9,7 +9,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,6 +21,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.sw_ss16.studyroompopulationpredicter.R;
 import com.sw_ss16.studyroompopulationpredicter.backend.Database;
+import com.sw_ss16.studyroompopulationpredicter.content.FavoriteStudyRoomsContent;
 import com.sw_ss16.studyroompopulationpredicter.ui.SettingsActivity;
 import com.sw_ss16.studyroompopulationpredicter.ui.studyroom.ListActivity;
 
@@ -250,6 +253,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (navigationView != null) {
             setupDrawerSelectListener(navigationView);
             setSelectedItem(navigationView);
+
+            // Add all study rooms to navdrawer
+            Menu m = navigationView.getMenu();
+            SubMenu all_study_rooms = m.getItem(2).getSubMenu();
+            for (int i = 0; i < FavoriteStudyRoomsContent.ITEMS.size(); i++)
+            {
+                all_study_rooms.add(FavoriteStudyRoomsContent.ITEMS.get(i).title);
+                all_study_rooms.getItem(i).setIcon(R.drawable.ic_school_white_24dp);
+            }
         }
 
         logD(TAG, "navigation drawer setup finished");
