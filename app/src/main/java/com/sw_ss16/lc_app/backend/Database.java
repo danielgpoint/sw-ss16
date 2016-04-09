@@ -1,4 +1,4 @@
-package com.sw_ss16.studyroompopulationpredicter.backend;
+package com.sw_ss16.lc_app.backend;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -6,6 +6,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class Database extends SQLiteOpenHelper {
 
+    // -------------------------------
+    // Members
+    // -------------------------------
     private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "Predictr_Database";
     private static final String STUDYROOM_TABLE_NAME = "studyrooms";
@@ -44,8 +47,7 @@ public class Database extends SQLiteOpenHelper {
     private static final String FAVSTUDYROOM_TABLE_NAME = "favstudyrooms";
     private static final String FAVSTUDYROOM_TABLE_CREATE =
             "CREATE TABLE " + FAVSTUDYROOM_TABLE_NAME + " (" +
-                    "ID" + " INT, " +
-                    "IS_FAV" + " INT" +
+                    "ID" + " INT " +
                     ");";
 
     private static final String LAST_UPDATED_TABLE_NAME = "lastupdated";
@@ -54,24 +56,25 @@ public class Database extends SQLiteOpenHelper {
                     "DATETIME" + " DATETIME " +
                     ");";
 
+    // -------------------------------
+    // Methods
+    // -------------------------------
     public Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        //TODO this should only happen if db is not existent and we want to update it. maybe?
+
         db.execSQL(STUDYROOM_TABLE_CREATE);
         db.execSQL(STATISTICS_TABLE_CREATE);
         db.execSQL(CURRENTDATA_TABLE_CREATE);
         db.execSQL(FAVSTUDYROOM_TABLE_CREATE);
         db.execSQL(LAST_UPDATED_TABLE_CREATE);
 
-        // Populate local database with data from remote db
-        /*db.execSQL("INSERT INTO studyrooms VALUES (" +
-                "1, 'i7', 'test', 'inffeld 25d', 'asdf', 50 );");
-        */
-        System.out.println("DB created");
-
+        System.out.println("[Database] DB created");
     }
 
     @Override
@@ -85,6 +88,5 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(query);
         db.close();
     }
-
 
 }

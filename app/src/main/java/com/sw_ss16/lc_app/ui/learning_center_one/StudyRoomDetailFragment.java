@@ -1,4 +1,4 @@
-package com.sw_ss16.studyroompopulationpredicter.ui.studyroom;
+package com.sw_ss16.lc_app.ui.learning_center_one;
 
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -13,15 +13,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.sw_ss16.studyroompopulationpredicter.R;
-import com.sw_ss16.studyroompopulationpredicter.content.StudyRoomsContent;
-import com.sw_ss16.studyroompopulationpredicter.ui.base.BaseActivity;
-import com.sw_ss16.studyroompopulationpredicter.ui.base.BaseFragment;
+import com.sw_ss16.lc_app.R;
+import com.sw_ss16.lc_app.content.LearningCenter;
+import com.sw_ss16.lc_app.content.LearningCenterContent;
+import com.sw_ss16.lc_app.ui.base.BaseActivity;
+import com.sw_ss16.lc_app.ui.base.BaseFragment;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
- * Shows the quote detail page.
+ * Shows the description detail page.
  *
  * Created by Andreas Schrade on 14.12.2015.
  */
@@ -33,15 +35,17 @@ public class StudyRoomDetailFragment extends BaseFragment {
     public static final String ARG_ITEM_ID = "item_id";
 
     /**
-     * The dummy content of this fragment.
+     * The dummy lc_address of this fragment.
      */
-    private StudyRoomsContent.DummyItem dummyItem;
+    private LearningCenter current_learning_center;
 
-    @Bind(R.id.quote)
-    TextView quote;
+    private LearningCenterContent lc_contentmanager = new LearningCenterContent();
 
-    @Bind(R.id.author)
-    TextView author;
+    @Bind(R.id.lc_description)
+    TextView description;
+
+    @Bind(R.id.lc_address)
+    TextView address;
 
     @Bind(R.id.backdrop)
     ImageView backdropImg;
@@ -55,7 +59,10 @@ public class StudyRoomDetailFragment extends BaseFragment {
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             // load dummy item by using the passed item ID.
-            dummyItem = StudyRoomsContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+
+            lc_contentmanager.setApplicationContext(getActivity().getApplicationContext());
+            current_learning_center = lc_contentmanager.getLcObject(getArguments().getString(ARG_ITEM_ID));
+            //current_learning_center = StudyRoomsContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
         }
 
         setHasOptionsMenu(true);
@@ -70,19 +77,32 @@ public class StudyRoomDetailFragment extends BaseFragment {
             ((BaseActivity) getActivity()).setToolbar((Toolbar) rootView.findViewById(R.id.toolbar));
         }
 
-        if (dummyItem != null) {
+        if (current_learning_center != null) {
             loadBackdrop();
-            collapsingToolbar.setTitle(dummyItem.title);
-            author.setText(dummyItem.author);
-            quote.setText(dummyItem.content);
+            collapsingToolbar.setTitle(current_learning_center.name);
+            address.setText(current_learning_center.address);
+            description.setText(current_learning_center.description);
         }
 
         return rootView;
     }
 
     private void loadBackdrop() {
-        // Glide.with(this).load(dummyItem.photoId).centerCrop().into(backdropImg);
-        Glide.with(this).load(dummyItem.imageInUrl).centerCrop().into(backdropImg);
+        // Glide.with(this).load(current_learning_center.photoId).centerCrop().into(backdropImg);
+        Glide.with(this).load(current_learning_center.image_in_url).centerCrop().into(backdropImg);
+    }
+
+    @OnClick(R.id.fav_fab_btn)
+    public void onFabClicked(View view) {
+        if(lc_contentmanager.getLearningCeterFavoriteStatus(Integer.parseInt(current_learning_center.id)))
+        {
+            lc_contentmanager.setLearningCeterFavoriteStatus(Integer.parseInt(current_learning_center.id), false);
+        }
+        else{
+            lc_contentmanager.setLearningCeterFavoriteStatus(Integer.parseInt(current_learning_center.id), true);
+        }
+
+        //Snackbar.make(view, "Hello Snackbar!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
     }
 
     @Override
