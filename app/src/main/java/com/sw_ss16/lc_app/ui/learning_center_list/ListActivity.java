@@ -1,16 +1,19 @@
-package com.sw_ss16.studyroompopulationpredicter.ui.studyroom;
+package com.sw_ss16.lc_app.ui.learning_center_list;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
-import com.sw_ss16.studyroompopulationpredicter.R;
-import com.sw_ss16.studyroompopulationpredicter.content.FavoriteStudyRoomsContent;
-import com.sw_ss16.studyroompopulationpredicter.ui.base.BaseActivity;
-import com.sw_ss16.studyroompopulationpredicter.util.LogUtil;
+import com.sw_ss16.lc_app.R;
+import com.sw_ss16.lc_app.content.LearningCenterContent;
+import com.sw_ss16.lc_app.ui.base.BaseActivity;
+import com.sw_ss16.lc_app.ui.learning_center_one.StudyRoomDetailActivity;
+import com.sw_ss16.lc_app.ui.learning_center_one.StudyRoomDetailFragment;
+import com.sw_ss16.lc_app.util.LogUtil;
 
 /**
  * Lists all available quotes. This Activity supports a single pane (= smartphones) and a two pane mode (= large screens with >= 600dp width).
@@ -23,10 +26,19 @@ public class ListActivity extends BaseActivity implements StudyRoomListFragment.
      */
     private boolean twoPaneMode;
 
+    private LearningCenterContent lc_contentmanager = new LearningCenterContent();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        //Check if no favorites
+        lc_contentmanager.setApplicationContext(getApplicationContext());
+        if(lc_contentmanager.getNumberOfFavorites() == 0){
+            findViewById(R.id.textView_no_fav).setVisibility(View.VISIBLE);
+        }
 
         setupToolbar();
 
@@ -67,7 +79,11 @@ public class ListActivity extends BaseActivity implements StudyRoomListFragment.
     }
 
     private void setupDetailFragment() {
-        StudyRoomDetailFragment fragment =  StudyRoomDetailFragment.newInstance(FavoriteStudyRoomsContent.ITEMS.get(0).id);
+        //StudyRoomDetailFragment fragment =  StudyRoomDetailFragment.newInstance(FavoriteStudyRoomsContent.ITEMS.get(0).id);
+
+        lc_contentmanager.setApplicationContext(getApplicationContext());
+        StudyRoomDetailFragment fragment =  StudyRoomDetailFragment.newInstance(lc_contentmanager.getListOfFavLcIds().get(0));
+
         getFragmentManager().beginTransaction().replace(R.id.article_detail_container, fragment).commit();
     }
 
