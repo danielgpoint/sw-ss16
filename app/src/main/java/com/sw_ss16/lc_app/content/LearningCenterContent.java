@@ -32,7 +32,14 @@ public class LearningCenterContent {
         this.app_context = app_context;
     }
 
-    public boolean getLearningCeterFavoriteStatus(int lc_id){
+    public long getNumberOfFavorites(){
+        Database db = new Database(app_context);
+        SQLiteDatabase sqldb = db.getReadableDatabase();
+
+        return DatabaseUtils.queryNumEntries(sqldb, "favstudyrooms");
+    }
+
+    public boolean getLearningCenterFavoriteStatus(int lc_id){
 
         Database db = new Database(app_context);
         SQLiteDatabase sqldb = db.getReadableDatabase();
@@ -47,13 +54,13 @@ public class LearningCenterContent {
 
     }
 
-    public void setLearningCeterFavoriteStatus(int lc_id, boolean set_is_favorite){
+    public void setLearningCenterFavoriteStatus(int lc_id, boolean set_is_favorite){
 
-        if((getLearningCeterFavoriteStatus(lc_id) && set_is_favorite) || (!getLearningCeterFavoriteStatus(lc_id) && !set_is_favorite)){
+        if((getLearningCenterFavoriteStatus(lc_id) && set_is_favorite) || (!getLearningCenterFavoriteStatus(lc_id) && !set_is_favorite)){
             return;
         }
 
-        else if(getLearningCeterFavoriteStatus(lc_id)){
+        else if(getLearningCenterFavoriteStatus(lc_id)){
             Database db = new Database(app_context);
             db.insertInDatabase("DELETE FROM favstudyrooms WHERE ID = " + lc_id + ";");
         }
@@ -130,8 +137,8 @@ public class LearningCenterContent {
                 c.getString(c.getColumnIndex("ADDRESS")),
                 c.getString(c.getColumnIndex("IMAGE_IN")),
                 c.getString(c.getColumnIndex("IMAGE_OUT")),
-                c.getString(c.getColumnIndex("CAPACITY")),
-                "0"); //TODO get status of fav from table
+                c.getString(c.getColumnIndex("CAPACITY"))
+                );
     }
 
 }
