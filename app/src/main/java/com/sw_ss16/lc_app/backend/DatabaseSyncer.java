@@ -27,6 +27,7 @@ public class DatabaseSyncer {
         syncStudyRoomsIntoSQLiteDB(queue, db);
         syncStatisticsIntoSQLiteDB(queue, db);
         syncCurrentDataIntoSQLiteDB(queue, db);
+        db.close();
     }
 
     public void syncStudyRoomsIntoSQLiteDB(RequestQueue queue, final Database db) {
